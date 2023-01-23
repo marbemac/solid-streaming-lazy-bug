@@ -1,11 +1,11 @@
-import { A, Router, useRoutes } from "@solidjs/router";
-import { Component } from "solid-js";
+import { Component, lazy, Match, Switch } from "solid-js";
 
-import { routeConfig } from "./routes";
+import Home from "./routes/home";
+import NotLazy from "./routes/not-lazy.js";
 
-const App: Component = () => {
-  const Routes = useRoutes(routeConfig);
+const Lazy = lazy(() => import("./routes/lazy.js"));
 
+const App: Component<{ path?: string }> = (props) => {
   return (
     <>
       <h1>App</h1>
@@ -17,19 +17,31 @@ const App: Component = () => {
 
       <ul>
         <li>
-          <A href="/">Home</A>
+          <a href="/">Home</a>
         </li>
         <li>
-          <A href="/lazy">Lazy</A>
+          <a href="/lazy">Lazy</a>
         </li>
         <li>
-          <A href="/not-lazy">Not Lazy</A>
+          <a href="/not-lazy">Not Lazy</a>
         </li>
       </ul>
 
       <hr />
 
-      <Routes />
+      <Switch>
+        <Match when={props.path === "/"}>
+          <Home />
+        </Match>
+
+        <Match when={props.path === "/lazy"}>
+          <Lazy />
+        </Match>
+
+        <Match when={props.path === "/not-lazy"}>
+          <NotLazy />
+        </Match>
+      </Switch>
     </>
   );
 };

@@ -1,4 +1,3 @@
-import { Router } from "@solidjs/router";
 import { Component } from "solid-js";
 import { HydrationScript, NoHydration } from "solid-js/web";
 import App from "./App";
@@ -9,9 +8,7 @@ const Root: Component<{ path?: string }> = (props) => {
       <head></head>
 
       <body>
-        <Router url={props.path}>
-          <App />
-        </Router>
+        <App path={props.path} />
 
         <HydrationScript />
 
